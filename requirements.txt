@@ -1,0 +1,11 @@
+pandas
+ipdb
+tensorflow
+tensorboardX
+
+injector
+pyhocon
+typing
+future
+
+spacy
