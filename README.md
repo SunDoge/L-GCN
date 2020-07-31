@@ -31,7 +31,7 @@ Deng Huang, Peihao Chen, Runhao Zeng, Qing Du, Mingkui Tan, Chuang Gan, *AAAI 20
 Clone this repo with git
 
 ```bash
-git clone
+git clone https://github.com/SunDoge/L-GCN.git
 cd L-GCN
 ```
 
