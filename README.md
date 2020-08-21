@@ -5,9 +5,9 @@ This repo holds the codes for the L-GCN framework presented on AAAI 2020
 **Location-aware Graph Convolutional Networks for Video Question Answering**
 Deng Huang, Peihao Chen, Runhao Zeng, Qing Du, Mingkui Tan, Chuang Gan, *AAAI 2020*, New York.
 
-[[Paper]()]
+[[Paper](https://arxiv.org/abs/2008.09105)]
 
-
+![overview.png](https://i.loli.net/2020/08/21/KRk98ciC6eY2hGd.png)
 
 # Contents
 
