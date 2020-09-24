@@ -3,7 +3,7 @@
 This repo holds the codes for the L-GCN framework presented on AAAI 2020
 
 **Location-aware Graph Convolutional Networks for Video Question Answering**
-Deng Huang, Peihao Chen, Runhao Zeng, Qing Du, Mingkui Tan, Chuang Gan, *AAAI 2020*, New York.
+Deng Huang, Peihao Chen, Runhao Zeng, Qing Du, Mingkui Tan, Chuang Gan, _AAAI 2020_, New York.
 
 [[Paper](https://arxiv.org/abs/2008.09105)]
 
@@ -12,19 +12,19 @@ Deng Huang, Peihao Chen, Runhao Zeng, Qing Du, Mingkui Tan, Chuang Gan, *AAAI 20
 # Contents
 
 ---
+
 - [Usage Guide](#usage-guide)
-    - [Code Preparation](#code)
-    - [Module Preparation](#module)
-    - [Data Preparation](#data)
-    - [Training](#training)
+  - [Code Preparation](#code)
+  - [Module Preparation](#module)
+  - [Data Preparation](#data)
+  - [Training](#training)
 - [Other Info](#other-info)
-    - [Citation](#citation)
-    - [Contact](#contact)
+  - [Citation](#citation)
+  - [Contact](#contact)
+
 ---
 
-
-
-#  Usage Guide
+# Usage Guide
 
 ## <span id="code"> Code Preparation <font size=3>[[back to top](#title)]</font> </span>
 
@@ -51,6 +51,7 @@ python -m spacy download en
 ### Data Processing
 
 #### Save frames
+
 Extract frames by following the instructions in [tgif-qa].
 
 ```bash
@@ -68,7 +69,7 @@ convert img.gif img/%d.jpg
 Since there are too many frames to process, we split them into N parts.
 
 ```bash
-python -m scripts.split_n_parts
+python -m scripts.split_n_parts -o data/tgif/frame_splits/
 ```
 
 #### Get bboxes
@@ -77,25 +78,35 @@ Extract bboxes using [Mask R-CNN]. Check the script for more args.
 
 ```bash
 python -m scripts.extract_bboxes_with_maskrcnn \
--f data/tgif/frames \
--o data/tgif/bboxes \
+-f data/tgif/frame_splits/split0.pkl \
+-o data/tgif/bboxes_splits/split0.pt \
 -c /path/to/e2e_mask_rcnn_R_101_FPN_1x_caffe2.yaml
 ```
 
 #### Merge bboxes
 
 ```bash
-python -m scripts.merge_bboxes \
---bboxes data/tgif/bboxes
--o data/tgif/bbox_features
+python -m scripts.merge_box_scores_and_labels \
+--bboxes data/tgif/bboxes_splits \
+-o data/tgif/bboxes
 ```
 
 #### Extract bbox features
 
 ```bash
 python -m scripts.extract_resnet152_features_with_bboxes \
--i data/tgif/bboxes \
--o data/tgif/resnet152_layer4_features
+-i data/tgif/frames \
+-f data/tgif/frame_splits/split0.pkl \
+-p data/tgif/bboxes_splits/split0.pt \
+-o data/tgif/bbox_features_splits/split0layer4
+```
+
+#### Merge bbox features
+
+```bash
+python -m scripts.merge_bboxes \
+--bboxes data/tgif/bbox_features_splits \
+-o data/tgif/resnet152_bbox_features
 ```
 
 #### Extract pool5 features
@@ -104,7 +115,6 @@ python -m scripts.extract_resnet152_features_with_bboxes \
 python -m scripts.extract_resnet152_features \
 -i data/tgif/frames
 ```
-
 
 ## <span id="training"> Training <font size=3>[[back to top](#title)]</font> </span>
 
@@ -117,8 +127,6 @@ python train.py -c config/resnet152-bbox/$TASK_CONFIG -e $PATH_TO_SAVE_RESULT
 - `$TASK_CONFIG` denotes the config of task, there are four choice: `action.conf`, `transition.conf`, `frameqa.conf`, `count.conf`
 
 - `$PATH_TO_SAVE_RESULT` denotes the path to save the result
-
-
 
 # Other Info
 
@@ -149,5 +157,5 @@ im.huangdeng@gmail.com
 phchencs@gmail.com
 ```
 
-[Mask R-CNN]: (https://github.com/facebookresearch/maskrcnn-benchmark)
+[mask r-cnn]: (https://github.com/facebookresearch/maskrcnn-benchmark)
 [tgif-qa]: (https://github.com/YunseokJANG/tgif-qa)

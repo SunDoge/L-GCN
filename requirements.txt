@@ -3,3 +3,4 @@ ipdb
 tensorflow
 pyhocon
 spacy
+typed-args==0.4.2

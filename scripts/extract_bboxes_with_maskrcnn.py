@@ -48,11 +48,12 @@ import numpy as np
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--frame-path', help='path to frames')
-parser.add_argument('-o', '--output', help='path to output pickle file')
+parser.add_argument('-o', '--output', help='path to output pt file')
 parser.add_argument('-b', '--batch-size', default=16)
 parser.add_argument('-n', '--num-workers', type=int, default=4)
 parser.add_argument('--msvd', action='store_true', help='for MSVD-QA')
-parser.add_argument('-c', '--config', help='path to e2e_mask_rcnn_R_101_FPN_1x_caffe2.yaml')
+parser.add_argument(
+    '-c', '--config', help='path to e2e_mask_rcnn_R_101_FPN_1x_caffe2.yaml')
 
 
 class Resize(object):
@@ -155,7 +156,7 @@ class GIFDataset(Dataset):
             else:
                 for n in range(num_frames):
                     self.video_dict[gif_name].append(
-                        os.path.join(sample, f'{n}.jpg') # For TGIF-QA
+                        os.path.join(sample, f'{n}.jpg')  # For TGIF-QA
                         # os.path.join(sample, f'{n + 1:06}.jpg')  # For MSVD-QA
                     )
 
@@ -206,7 +207,7 @@ class Extractor:
 
         self.datasets = GIFDataset(cfg, args)
 
-        self.results = defaultdict(list)
+        self.results: Dict[str, List] = defaultdict(list)
 
     @torch.no_grad()
     def compute_predictions(self, image_list: ImageList) -> List[BoxList]:
@@ -267,7 +268,7 @@ class Extractor:
         # ]
 
         for pred in predictions:
-            pred: BoxList = pred.to(self.cpu_device).resize((1, 1))
+            pred: BoxList = pred.to(self.cpu_device).resize((1, 1))  
             self.results[gif_name].append(
                 {
                     'bbox': pred.bbox,

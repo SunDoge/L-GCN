@@ -70,7 +70,7 @@ parser.add_argument(
     '-n', '--num-workers', type=int, default=4
 )
 parser.add_argument(
-    '-p', '--part'
+    '-p', '--part', help='path to pt file'
 )
 parser.add_argument(
     '--num-boxes', type=int

@@ -14,7 +14,7 @@ parser.add_argument(
     help='path to frames'
 )
 parser.add_argument(
-    '-o', '--output', default='data/tgif/frame-splits/', type=Path,
+    '-o', '--output', default='data/tgif/frame_splits/', type=Path,
     help='path to save the splited pickle file'
 )
 parser.add_argument(
